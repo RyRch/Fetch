@@ -1,18 +1,23 @@
 include config.mk
 
-all:	$(BIN)
+all:	$(NAME) $(BIN)
+
+$(NAME): $(LOBJ)
+	ar rc $(NAME) $(LOBJ)
 
 $(BIN): $(OBJ)
-	$(CC) $(OBJ) $(CFLAGS) -o $(BIN)
+	$(CC) $(OBJ) $(NAME) $(CFLAGS) -o $(BIN)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	$(RM) $(OBJ)
+	$(RM) $(LOBJ)
 
 fclean: clean
 	$(RM) $(BIN)
+	$(RM) $(NAME)
 
 re: fclean all
 
