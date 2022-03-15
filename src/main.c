@@ -2,11 +2,17 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+/*
+static const char *wm[] =  {
+        "dwm", "i3wm", "bspwn", "xmonad", "qtile", NULL
+};
+*/
+
 int ft_strlen(char *str)
 {
         int i = 0;
 
-        for ( ; str[i]; i++);
+        for ( ; str[i] != '\0'; i++);
         return (i);
 }
 
@@ -31,23 +37,24 @@ char *ft_strdup(char *src)
 
 void gest_env(char **env)
 {
-        char *shell = NULL;
-        char *term = NULL;
+        char *shell = "huhu";
+        char *term = "hehehehehehehehhehehehehhe";
 
         for (int i = 0; env[i] != NULL; i++) {
-                if (ft_strncpy(env[i], "SHELL", 4))
+                if (ft_strlen(env[i]) > 4 && ft_strncpy(env[i], "SHELL", 4))
                         shell = ft_strdup(env[i]);
-                if (ft_strncpy(env[i], "TERM", 4))
+                if (ft_strlen(env[i]) > 12 && ft_strncpy(env[i], "TERM_PROGRAM", 12))
+                        term = ft_strdup(env[i]);
+                if (ft_strlen(env[i]) > 5 && ft_strncpy(env[i], "TERM=", 5))
                         term = ft_strdup(env[i]);
 
         }
-        printf("%s\n", shell);
-        printf("%s\n", term);
+        printf("Shell: %s\n", &shell[15]);
+        printf("Term : %s\n", &term[5]);
 }
 
 int main(int ac, char **av, char **env)
 {
-        //char buf[BUFSIZ] = {0};
         gest_env(env);
         (void)ac;
         (void)av;
