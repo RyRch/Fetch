@@ -2,7 +2,9 @@ SRC	=	src/main.c
 
 LIB =	lib/ft_strdup.c\
 		lib/ft_strlen.c\
-		lib/ft_strncmp.c
+		lib/ft_strncmp.c\
+		lib/ft_strstr.c\
+		lib/ft_strcmp.c
 
 CC =	gcc
 
