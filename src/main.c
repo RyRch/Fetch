@@ -3,6 +3,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <sys/utsname.h>   /* Header for 'uname'  */
 
 static const char *wm[] =  {
         "dwm", "i3wm", "bspwn", "xmonad", "qtile", "awesomewm", NULL
@@ -10,47 +11,45 @@ static const char *wm[] =  {
 
 const char *xinitrc = "/home/rr/.xinitrc";
 static const char *osrelease = "/proc/sys/kernel/osrelease";
+static const char *hostname = "/proc/sys/kernel/hostname";
 /*
 static const char *cpuinfo = "/proc/cpuinfo";
 static const char *meminfo = "/proc/meminfo";
 */
-void red () {
-  printf("\033[1;31m");
-}
-void yellow() {
-  printf("\033[1;33m");
-}
-void reset () {
-  printf("\033[0m");
-}
-void gest_env(char **env)
-{
-        (void)env;
-//        char *shell = NULL;
- //       char *term = NULL;
-/*
-        for (int i = 0; env[i] != NULL; i++) {
-                if (ft_strlen(env[i]) > 4 && ft_strncmp(env[i], "SHELL", 4))
-                        shell = ft_strdup(env[i]);
-                else if (ft_strlen(env[i]) > 5 
-                                && ft_strncmp(env[i], "TERM=", 5)) {
-                        term = ft_strdup(env[i]);
-                        term = ft_strdup(&term[5]);
-                } else if (ft_strlen(env[i]) > 13 
-                                && ft_strncmp(env[i], "TERM_PROGRAM=", 13)) {
-                        term = ft_strdup(env[i]);
-                        term = ft_strdup(&term[13]);
-                }
 
+enum {
+        RED,
+        YELLOW,
+        PURPLE,
+        BLUE,
+        CYAN,
+        WHITE,
+        GREEN,
+        RESET,
+};
+
+const char *colors[] = {
+        [RED] = "\033[1;31m",
+        [GREEN] = "\033[1;32m",
+        [YELLOW] = "\033[1;33m",
+        [PURPLE] = "\033[1;34m",
+        [BLUE] = "\033[1;35m",
+        [CYAN] = "\033[1;36m",
+        [WHITE] = "\033[1;37m",
+        [RESET] = "\033[0m",
+};
+
+void gest_env(void)
+{
+        char *str = NULL;
+
+        printf("%sShell : %s\n", colors[WHITE], getenv("SHELL"));
+        str = ft_strdup(getenv("TERM"));
+        if (str == NULL || ft_strcmp(str, "screen")) {
+                str = NULL;
+                str = ft_strdup(getenv("TERM_PROGRAM"));
         }
-        */
-        yellow();
-        printf("Shell : %s\n", getenv("SHELL"));
-        //printf("Shell: %s\n", &shell[15]);
-        red();
-        printf("Term  : %s\n", getenv("TERM"));
-        //printf("Term : %s\n", term);
-        reset();
+        printf("%sTerm  : %s\n", colors[RED], str);
 }
 
 const char *get_file(const char *file)
@@ -83,12 +82,19 @@ char *get_wm(const char *file)
         return str;
 }
 
-int main(int ac, char **av, char **env)
+int main(void)
 {
-        (void)ac;
-        (void)av;
-        gest_env(env);
+        struct utsname uname_pointer;
+
+        uname(&uname_pointer);
+        gest_env();
+        printf("%s", colors[GREEN]);
         printf("Wm   : %s\n", (char *)get_wm(get_file(xinitrc)));
-        printf("Kernel: %s\n", get_file(osrelease));
+        printf("%s", colors[YELLOW]);
+        printf("Kernel: %s", get_file(osrelease));
+        printf("%s", colors[PURPLE]);
+        printf("Machine: %s\n", uname_pointer.machine);
+        printf("%s", colors[BLUE]);
+        printf("Hostname : %s", get_file(hostname));
         return 0;
 }
