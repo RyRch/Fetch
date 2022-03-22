@@ -12,7 +12,7 @@ static const char *wm[] =  {
 const char *xinitrc = "/home/rr/.xinitrc";
 static const char *osrelease = "/proc/sys/kernel/osrelease";
 static const char *hostname = "/proc/sys/kernel/hostname";
-//static const char *cpuinfo = "/proc/cpuinfo";
+static const char *cpuinfo = "/proc/cpuinfo";
 static const char *meminfo = "/proc/meminfo";
 
 enum {
@@ -93,6 +93,18 @@ int get_mem(const char *file)
         return mem;
 }
 
+char *get_cpu(const char *file)
+{
+        char **arr = NULL;
+        char *str = NULL;
+
+        arr = str_to_tab((char *)file, ":\n");
+        str = ft_strdup((char *)arr[9]);
+        for (int i = 0; arr[i] != NULL; i++)
+                free(arr[i]);
+        return str;
+}
+
 int main(void)
 {
         struct utsname uname_pointer;
@@ -109,5 +121,7 @@ int main(void)
         printf("Hostname : %s", get_file(hostname));
         printf("%s", colors[CYAN]);
         printf("Memory: %d GB\n", get_mem(get_file(meminfo)));
+        printf("%s", colors[RESET]);
+        printf("CPU: %s\n", get_cpu(get_file(cpuinfo)));
         return 0;
 }
