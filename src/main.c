@@ -12,10 +12,8 @@ static const char *wm[] =  {
 const char *xinitrc = "/home/rr/.xinitrc";
 static const char *osrelease = "/proc/sys/kernel/osrelease";
 static const char *hostname = "/proc/sys/kernel/hostname";
-/*
-static const char *cpuinfo = "/proc/cpuinfo";
+//static const char *cpuinfo = "/proc/cpuinfo";
 static const char *meminfo = "/proc/meminfo";
-*/
 
 enum {
         RED,
@@ -82,6 +80,19 @@ char *get_wm(const char *file)
         return str;
 }
 
+int get_mem(const char *file)
+{
+        char **arr = NULL;
+        int mem = 0;
+
+        arr = str_to_tab((char *)file, ":\n");
+        mem = atoi((char *)arr[1]);
+        mem /= 1000000;
+        for (int i = 0; arr[i] != NULL; i++)
+                free(arr[i]);
+        return mem;
+}
+
 int main(void)
 {
         struct utsname uname_pointer;
@@ -96,5 +107,7 @@ int main(void)
         printf("Machine: %s\n", uname_pointer.machine);
         printf("%s", colors[BLUE]);
         printf("Hostname : %s", get_file(hostname));
+        printf("%s", colors[CYAN]);
+        printf("Memory: %d GB\n", get_mem(get_file(meminfo)));
         return 0;
 }
