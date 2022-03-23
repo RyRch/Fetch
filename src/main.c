@@ -14,6 +14,12 @@ static const char *osrelease = "/proc/sys/kernel/osrelease";
 static const char *hostname = "/proc/sys/kernel/hostname";
 static const char *cpuinfo = "/proc/cpuinfo";
 static const char *meminfo = "/proc/meminfo";
+/*
+static const char *border[] = {
+        " _____________________",
+        "|                     |",
+};
+*/
 
 enum {
         RED,
@@ -41,13 +47,13 @@ void gest_env(void)
 {
         char *str = NULL;
 
-        printf("%sShell : %s\n", colors[WHITE], getenv("SHELL"));
+        printf("%sShll   %s\n", colors[WHITE], getenv("SHELL"));
         str = ft_strdup(getenv("TERM"));
         if (str == NULL || ft_strcmp(str, "screen")) {
                 str = NULL;
                 str = ft_strdup(getenv("TERM_PROGRAM"));
         }
-        printf("%sTerm  : %s\n", colors[RED], str);
+        printf("%sTerm   %s\n", colors[RED], str);
 }
 
 const char *get_file(const char *file)
@@ -110,18 +116,19 @@ int main(void)
         struct utsname uname_pointer;
 
         uname(&uname_pointer);
+        printf("%s", colors[RED]);
         gest_env();
         printf("%s", colors[GREEN]);
-        printf("Wm   : %s\n", (char *)get_wm(get_file(xinitrc)));
+        printf("Winm   %s\n", (char *)get_wm(get_file(xinitrc)));
         printf("%s", colors[YELLOW]);
-        printf("Kernel: %s", get_file(osrelease));
+        printf("Krnl   %s", get_file(osrelease));
         printf("%s", colors[PURPLE]);
-        printf("Machine: %s\n", uname_pointer.machine);
+        printf("Arch   %s\n", uname_pointer.machine);
         printf("%s", colors[BLUE]);
-        printf("Hostname : %s", get_file(hostname));
+        printf("Host   %s", get_file(hostname));
         printf("%s", colors[CYAN]);
-        printf("Memory: %d GB\n", get_mem(get_file(meminfo)));
+        printf("Mmry   %d GB\n", get_mem(get_file(meminfo)));
         printf("%s", colors[RESET]);
-        printf("CPU: %s\n", get_cpu(get_file(cpuinfo)));
+        printf("Proc  %s\n", get_cpu(get_file(cpuinfo)));
         return 0;
 }
