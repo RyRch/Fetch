@@ -1,47 +1,5 @@
-#include <stdio.h>
 #include "../icl/proto.h"
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <sys/utsname.h>   /* Header for 'uname'  */
-
-static const char *wm[] =  {
-        "dwm", "i3wm", "bspwn", "xmonad", "qtile", "awesomewm", NULL
-};
-
-const char *xinitrc = "/home/rr/.xinitrc";
-static const char *osrelease = "/proc/sys/kernel/osrelease";
-static const char *hostname = "/proc/sys/kernel/hostname";
-static const char *cpuinfo = "/proc/cpuinfo";
-static const char *meminfo = "/proc/meminfo";
-/*
-static const char *border[] = {
-        " _____________________",
-        "|                     |",
-};
-*/
-
-enum {
-        RED,
-        YELLOW,
-        PURPLE,
-        BLUE,
-        CYAN,
-        WHITE,
-        GREEN,
-        RESET,
-};
-
-const char *colors[] = {
-        [RED] = "\033[1;31m",
-        [GREEN] = "\033[1;32m",
-        [YELLOW] = "\033[1;33m",
-        [PURPLE] = "\033[1;34m",
-        [BLUE] = "\033[1;35m",
-        [CYAN] = "\033[1;36m",
-        [WHITE] = "\033[1;37m",
-        [RESET] = "\033[0m",
-};
+#include "../icl/config.h"
 
 void gest_env(void)
 {
@@ -111,6 +69,19 @@ char *get_cpu(const char *file)
         return str;
 }
 
+char *get_gtk_infos(const char *file, const char *info)
+{
+        char **arr = NULL;
+        char *str = NULL;
+
+        arr = str_to_tab((char *)file, "=\n");
+        for (int i = 0; arr[i] != NULL; i++) {
+                if (ft_strcmp((char *)info, arr[i]))
+                        str = ft_strdup(arr[i + 1]);
+        }
+        return str;
+}
+
 int main(void)
 {
         struct utsname uname_pointer;
@@ -130,5 +101,12 @@ int main(void)
         printf("Mmry   %d GB\n", get_mem(get_file(meminfo)));
         printf("%s", colors[RESET]);
         printf("Proc  %s\n", get_cpu(get_file(cpuinfo)));
+        printf("%s", colors[WHITE]);
+        printf("Font   %s\n", get_gtk_infos(get_file(gtkfile), "gtk-font-name"));
+        printf("%s", colors[RED]);
+        printf("Them   %s\n", get_gtk_infos(get_file(gtkfile), "gtk-theme-name"));
+        printf("%s", colors[GREEN]);
+        printf("Icon   %s\n", get_gtk_infos(get_file(gtkfile), "gtk-icon-theme-name"));
+        printf("%s", colors[RESET]);
         return 0;
 }
