@@ -1,4 +1,5 @@
-SRC	=	src/main.c
+SRC	=	src/main.c\
+		src/fetch.c
 
 LIB =	lib/ft_strdup.c\
 		lib/ft_strlen.c\
