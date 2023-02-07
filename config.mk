@@ -18,6 +18,6 @@ NAME =	libmy.a
 
 CFLAGS +=	-Wall -Werror -Wextra -g3
 
-BIN =	rfetch
+BIN =	fetch
 
 RM =	rm -rf
