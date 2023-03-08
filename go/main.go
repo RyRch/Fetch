@@ -90,7 +90,7 @@ func main() {
     fmt.Printf("%s%s%s\n", colors[WHITE], "┌─────────────────────────┐", colors[BLACK]);
     fmt.Printf("    Distro: %s%s\n", colors[RESET], print_distro())
     fmt.Printf("%s    WM/DE: %s%s\n", colors[RED], colors[RESET], "dwm")
-    fmt.Printf("%s    TERM: %s%s\n", colors[GREEN], colors[RESET], "st tmux")
+    fmt.Printf("%s    TERM: %s%s\n", colors[GREEN], colors[RESET], os.Getenv("TERM_PROGRAM"))
     fmt.Printf("%s    SHELL: %s%s\n", colors[YELLOW], colors[RESET], print_shell())
     fmt.Printf("%s    CPU: %s%s\n", colors[PURPLE], colors[RESET], "i5 8250U")
     fmt.Printf("%s    GPU: %s%s\n", colors[BLUE], colors[RESET], "intel uhd 620")
