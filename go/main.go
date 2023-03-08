@@ -70,9 +70,25 @@ func print_shell() string {
     return ""
 }
 
+func print_distro() string {
+    list := [6]string{"arch", "fedora", "gentoo", "kali", "debian", "bsd"}
+    release, err := os.ReadFile("/proc/sys/kernel/osrelease")
+
+    if err != nil {
+        fmt.Printf("FILE DOESN'T EXIST")
+        return ""
+    }
+    for i := 0; i < 6; i++ {
+        if strstr(list[i], string(release)) {
+            return list[i] + " linux" 
+        }
+    }
+    return ""
+}
+
 func main() {
     fmt.Printf("%s%s%s\n", colors[WHITE], "┌─────────────────────────┐", colors[BLACK]);
-    fmt.Printf("    Distro: %s%s\n", colors[RESET], "arch linux")
+    fmt.Printf("    Distro: %s%s\n", colors[RESET], print_distro())
     fmt.Printf("%s    WM/DE: %s%s\n", colors[RED], colors[RESET], "dwm")
     fmt.Printf("%s    TERM: %s%s\n", colors[GREEN], colors[RESET], "st tmux")
     fmt.Printf("%s    SHELL: %s%s\n", colors[YELLOW], colors[RESET], print_shell())
