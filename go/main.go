@@ -3,6 +3,7 @@ package main
 import (
     "fmt"
     "os"
+    "strconv"
 )
 
 const (
@@ -29,35 +30,6 @@ var colors = []string {
     RESET: "\033[0m",
 }
 
-/*
-var paths = []string {
-    kernel: "/proc/sys/kernel/osrelease",
-    ostype: "/proc/sys/kernel/ostype",
-    host: "/proc/sys/kernel/hostname",
-    cpu: "/proc/cpuinfo",
-    mem: "/proc/meminfo",
-}
-*/
-
-func strncmp(size int, str string, src string) bool {
-    for i := 0; i < size; i++ {
-        if src[i] != str[i] {
-            return false
-        }
-    }
-    return true
-}
-
-func strstr(str string, src string) bool {
-    for i := 0; i < len(src); i++ {
-        test := src[i:]
-        if strncmp(len(str), str, test) == true {
-            return true
-        }
-    }
-    return false
-}
-
 func print_shell() string {
     str := os.Getenv("SHELL")
     list := [6]string{"bash", "zsh", "dash", "csh", "ksh", "fish"}
@@ -72,18 +44,25 @@ func print_shell() string {
 
 func print_distro() string {
     list := [6]string{"arch", "fedora", "gentoo", "kali", "debian", "bsd"}
-    release, err := os.ReadFile("/proc/sys/kernel/osrelease")
+    release, _ := os.ReadFile("/proc/sys/kernel/osrelease")
 
-    if err != nil {
-        fmt.Printf("FILE DOESN'T EXIST")
-        return ""
-    }
     for i := 0; i < 6; i++ {
         if strstr(list[i], string(release)) {
             return list[i] + " linux" 
         }
     }
     return ""
+}
+
+func print_memory() int {
+    file, _ := os.ReadFile("/proc/meminfo")
+    arr := str2arr(file, []byte("\n:")) 
+    part := string(arr[1])
+    mem, _ := strconv.Atoi(part[7:len(part)-3])
+    mem /= 1000000
+    arr = nil
+
+    return mem
 }
 
 func main() {
@@ -94,7 +73,7 @@ func main() {
     fmt.Printf("%s    SHELL: %s%s\n", colors[YELLOW], colors[RESET], print_shell())
     fmt.Printf("%s    CPU: %s%s\n", colors[PURPLE], colors[RESET], "i5 8250U")
     fmt.Printf("%s    GPU: %s%s\n", colors[BLUE], colors[RESET], "intel uhd 620")
-    fmt.Printf("%s    MEM: %s%s\n", colors[CYAN], colors[RESET], "20gb")
-    fmt.Printf("%s    DISK: %s%s\n", colors[WHITE], colors[RESET], "256gb")
+    fmt.Printf("%s    MEM: %s%d%s\n", colors[CYAN], colors[RESET], print_memory(), " gb")
+    fmt.Printf("%s    DISK: %s%s\n", colors[WHITE], colors[RESET], "256 gb")
     fmt.Printf("%s%s%s\n", colors[WHITE], "└─────────────────────────┘", colors[RESET]);
 }
