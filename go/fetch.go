@@ -43,6 +43,7 @@ func print_shell() string {
 }
 
 func print_distro() string {
+    // we still don't know other outputs
     list := [6]string{"arch", "fedora", "gentoo", "kali", "debian", "bsd"}
     release, _ := os.ReadFile("/proc/sys/kernel/osrelease")
 
@@ -65,13 +66,23 @@ func print_memory() int {
     return mem
 }
 
+func print_cpu() string {
+    file, _ := os.ReadFile("/proc/cpuinfo");
+    arr := str2arr(file, []byte("\n:"))
+    part := string(arr[9])
+    arr = nil
+
+    return part
+}
+
+
 func main() {
     fmt.Printf("%s%s%s\n", colors[WHITE], "┌─────────────────────────┐", colors[BLACK]);
     fmt.Printf("    Distro: %s%s\n", colors[RESET], print_distro())
     fmt.Printf("%s    WM/DE: %s%s\n", colors[RED], colors[RESET], "dwm")
     fmt.Printf("%s    TERM: %s%s\n", colors[GREEN], colors[RESET], os.Getenv("TERM_PROGRAM"))
     fmt.Printf("%s    SHELL: %s%s\n", colors[YELLOW], colors[RESET], print_shell())
-    fmt.Printf("%s    CPU: %s%s\n", colors[PURPLE], colors[RESET], "i5 8250U")
+    fmt.Printf("%s    CPU: %s%s\n", colors[PURPLE], colors[RESET], print_cpu())
     fmt.Printf("%s    GPU: %s%s\n", colors[BLUE], colors[RESET], "intel uhd 620")
     fmt.Printf("%s    MEM: %s%d%s\n", colors[CYAN], colors[RESET], print_memory(), " gb")
     fmt.Printf("%s    DISK: %s%s\n", colors[WHITE], colors[RESET], "256 gb")
