@@ -3,6 +3,7 @@ package main
 import (
     "fmt"
     "os"
+    "io/ioutil"
     "strconv"
     "syscall"
 )
@@ -67,7 +68,7 @@ func print_shell() string {
 func print_distro() string {
     // we still don't know other outputs
     list := [6]string{"arch", "fedora", "gentoo", "kali", "debian", "bsd"}
-    release, _ := os.ReadFile("/proc/sys/kernel/osrelease")
+    release, _ := ioutil.ReadFile("/proc/sys/kernel/osrelease")
 
     for i := 0; i < 6; i++ {
         if strstr(list[i], string(release)) {
@@ -78,7 +79,7 @@ func print_distro() string {
 }
 
 func print_memory() int {
-    file, _ := os.ReadFile("/proc/meminfo")
+    file, _ := ioutil.ReadFile("/proc/meminfo")
     arr := str2arr(file, []byte("\n:"))
     part := string(arr[1])
     mem, _ := strconv.Atoi(part[7:len(part)-3])
@@ -89,7 +90,7 @@ func print_memory() int {
 }
 
 func print_cpu() string {
-    file, _ := os.ReadFile("/proc/cpuinfo");
+    file, _ := ioutil.ReadFile("/proc/cpuinfo");
     arr := str2arr(file, []byte("\n:"))
     part := string(arr[9])
     arr = nil
@@ -98,7 +99,7 @@ func print_cpu() string {
 }
 
 func main() {
-    disk := DiskUsage("/home/rr/")
+    disk := DiskUsage("/home/")
     fmt.Printf("%s%s%s\n", colors[WHITE], "┌─────────────────────────┐", colors[BLACK]);
     fmt.Printf("    Distro: %s%s\n", colors[RESET], print_distro())
     fmt.Printf("%s    WM/DE: %s%s\n", colors[RED], colors[RESET], "dwm")
