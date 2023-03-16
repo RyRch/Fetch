@@ -1,5 +1,5 @@
 BIN	=	fetch
-SRC	=	*.go
+SRC	=	src/*.go
 CC	=	gccgo
 
 all:
