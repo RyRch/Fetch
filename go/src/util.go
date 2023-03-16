@@ -72,3 +72,12 @@ func str2arr(str []byte, charset []byte) [][]byte {
     }
     return arr
 }
+
+func is_num(arr []byte) bool {
+  for i := 0; i < arr[i]; i++ {
+    if arr[i] >= '0' && arr[i] <= '9' {
+      return true
+    }
+  }
+  return false
+}
