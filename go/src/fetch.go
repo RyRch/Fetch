@@ -66,7 +66,6 @@ func print_shell() string {
 }
 
 func print_distro() string {
-    // we still don't know other outputs
     list := [6]string{"arch", "fedora", "gentoo", "kali", "debian", "bsd"}
     release, _ := ioutil.ReadFile("/proc/sys/kernel/osrelease")
 
