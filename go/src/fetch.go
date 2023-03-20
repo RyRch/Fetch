@@ -66,10 +66,10 @@ func print_shell() string {
 }
 
 func print_distro() string {
-    list := [6]string{"arch", "fedora", "gentoo", "kali", "debian", "bsd"}
-    release, _ := ioutil.ReadFile("/proc/sys/kernel/osrelease")
+    list := [7]string{"arch", "fedora", "gentoo", "kali", "debian", "bsd", "ubuntu"}
+    release, _ := ioutil.ReadFile("/proc/version")
 
-    for i := 0; i < 6; i++ {
+    for i := 0; i < 7; i++ {
         if strstr(list[i], string(release)) {
             return list[i] + " linux"
         }
