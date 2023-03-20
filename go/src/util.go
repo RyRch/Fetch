@@ -1,7 +1,7 @@
 package main
 
 import (
-    "fmt"
+//    "fmt"
 )
 
 func strncmp(size int, str string, src string) bool {
