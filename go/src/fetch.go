@@ -80,8 +80,8 @@ func print_distro() string {
 func print_memory() int {
     file, _ := ioutil.ReadFile("/proc/meminfo")
     arr := str2arr(file, []byte("\n:"))
-    part := string(arr[1])
-    mem, _ := strconv.Atoi(part[7:len(part)-3])
+    cln := clean4atoi(arr[1])
+    mem, _ := strconv.Atoi(string(cln))
     mem /= 1000000
     arr = nil
 

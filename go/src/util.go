@@ -1,7 +1,7 @@
 package main
 
 import (
-//    "fmt"
+    "fmt"
 )
 
 func strncmp(size int, str string, src string) bool {
@@ -23,11 +23,27 @@ func strstr(str string, src string) bool {
     return false
 }
 
-func is_num(arr []byte) bool {
-  for i := 0; i < len(arr); i++ {
-    if arr[i] >= '0' && arr[i] <= '9' {
-      return true
+func is_num(c byte) bool {
+    if c >= '0' && c <= '9' {
+        return true
     }
-  }
-  return false
+    return false
+}
+
+func clean4atoi(arr []byte) []byte {
+    size := 0
+    for i := 0; i < len(arr); i++ {
+        if is_num(arr[i]) {
+            size++
+        }
+    }
+    cln := make([]byte, size)
+    w := 0
+    for i := 0; w < size; i++ {
+        if is_num(arr[i]) {
+            cln[w] = arr[i]
+            w++
+        }
+    }
+    return cln
 }
