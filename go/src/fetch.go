@@ -2,6 +2,7 @@ package main
 
 import (
     "fmt"
+    "os/exec"
     "os"
     "io/ioutil"
     "strconv"
@@ -105,6 +106,23 @@ func print_term() string {
     return term
 }
 
+func print_gpu() string {
+    out, err := exec.Command("lspci").Output()
+    part := ""
+    if err != nil {
+        fmt.Printf("ERROR: no output for gpu")
+    }
+    arr := str2arr(out, []byte("\n:"))
+    for i := 0; i < len(arr); i++ {
+        if strstr("VGA", string(arr[i])) {
+            part = string(arr[i+1]) 
+            break
+        }
+    }
+    arr = nil
+    return part
+}
+
 func main() {
     disk := DiskUsage("/home/")
     fmt.Printf("%s%s%s\n", colors[WHITE], "┌─────────────────────────┐", colors[BLACK]);
@@ -113,7 +131,7 @@ func main() {
     fmt.Printf("%s    TERM: %s%s\n", colors[GREEN], colors[RESET], print_term())
     fmt.Printf("%s    SHELL: %s%s\n", colors[YELLOW], colors[RESET], print_shell())
     fmt.Printf("%s    CPU: %s%s\n", colors[PURPLE], colors[RESET], print_cpu())
-    fmt.Printf("%s    GPU: %s%s\n", colors[BLUE], colors[RESET], "intel uhd 620")
+    fmt.Printf("%s    GPU: %s%s\n", colors[BLUE], colors[RESET], print_gpu())
     fmt.Printf("%s    MEM: %s%d gb\n", colors[CYAN], colors[RESET], print_memory())
     fmt.Printf("%s    DISK: %s%d gb\n", colors[WHITE], colors[RESET], uint64(disk.All)/uint64(GB))
     fmt.Printf("%s%s%s\n", colors[WHITE], "└─────────────────────────┘", colors[RESET]);
