@@ -1,24 +1,11 @@
-include config.mk
+BIN	=	fetch
+SRC	=	src/*.go
+CC	=	gccgo
 
-all:	$(NAME) $(BIN)
-
-$(NAME): $(LOBJ)
-	ar rc $(NAME) $(LOBJ)
-
-$(BIN): $(OBJ)
-	$(CC) $(OBJ) $(NAME) $(CFLAGS) -o $(BIN)
-
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+all:
+	$(CC) $(SRC) -o $(BIN)
 
 clean:
-	$(RM) $(OBJ)
-	$(RM) $(LOBJ)
+	@rm $(BIN)
 
-fclean: clean
-	$(RM) $(BIN)
-	$(RM) $(NAME)
-
-re: fclean all
-
-.PHONY: all clean fclean re
+re: clean all

@@ -112,6 +112,7 @@ func print_gpu() string {
 
     if err != nil {
         fmt.Printf("ERROR: no output for gpu")
+        return "unknow"
     }
     arr := str2arr(out, []byte("\n:"))
     for i := 0; i < len(arr); i++ {
@@ -133,6 +134,7 @@ func get_wm_id() string {
 
     if err != nil {
         fmt.Printf("ERROR: no output for xprop")
+        return ""
     }
     arr := str2arr(out, []byte("\n:"))
     for i := 0; i < len(arr); i++ {
@@ -154,7 +156,12 @@ func get_wm_id() string {
 }
 
 func print_wm() string {
-    cmd := exec.Command("xprop", "-id", get_wm_id(), "-notype", "-f", "_NET_WM_NAME", "8t")
+    id := get_wm_id()
+
+    if id == "" {
+        return "unknow"
+    }
+    cmd := exec.Command("xprop", "-id", id, "-notype", "-f", "_NET_WM_NAME", "8t")
     list := [7]string{"dwm", "i3", "bspwm", "sway", "awesome", "xfwm", "xmonad"}
     res := ""
 
