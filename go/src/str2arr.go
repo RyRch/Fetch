@@ -13,7 +13,7 @@ func count_rows(str []byte, charset []byte) int {
 	rows := 0
 
 	for i := 0; i < len(str); i++ {
-		if is_charset(str[i], charset) {
+		if is_charset(str[i], charset) && i != 0 {
 			rows++
 		}
 	}
