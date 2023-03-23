@@ -73,14 +73,14 @@ func print_term() string {
 
 func main() {
     disk := DiskUsage("/home/")
-    fmt.Printf("%s%s%s\n", colors[WHITE], "┌───────────────────────────────────┐", colors[BLACK]);
-    fmt.Printf("    DISTRO: %s%s\n", colors[RESET], print_distro())
-    fmt.Printf("%s    WM/DE: %s%s\n", colors[RED], colors[RESET], print_wm())
-    fmt.Printf("%s    TERMINAL: %s%s\n", colors[GREEN], colors[RESET], print_term())
-    fmt.Printf("%s    SHELL: %s%s\n", colors[YELLOW], colors[RESET], print_shell())
-    fmt.Printf("%s    CPU: %s%s\n", colors[PURPLE], colors[RESET], print_cpu())
-    fmt.Printf("%s    GPU: %s%s\n", colors[BLUE], colors[RESET], print_gpu())
-    fmt.Printf("%s    MEMORY: %s%d gb\n", colors[CYAN], colors[RESET], print_memory())
-    fmt.Printf("%s    DISK: %s%d gb\n", colors[WHITE], colors[RESET], uint64(disk.All)/uint64(GB))
-    fmt.Printf("%s%s%s\n", colors[WHITE], "└───────────────────────────────────┘", colors[RESET]);
+    fmt.Printf("\n%s%s%s%s\n", colors[WHITE], "      .___.      ", "┌───────────────────────────────────┐", colors[BLACK]);
+    fmt.Printf("     /     \\           DISTRO: %s%s\n", colors[RESET], print_distro())
+    fmt.Printf("%s    | O _ O |          WM/DE: %s%s\n", colors[RED], colors[RESET], print_wm())
+    fmt.Printf("%s    /  \\_/  \\          TERMINAL: %s%s\n", colors[GREEN], colors[RESET], print_term())
+    fmt.Printf("%s  .' /     \\ '.        SHELL: %s%s\n", colors[YELLOW], colors[RESET], print_shell())
+    fmt.Printf("%s / _|       |_ \\       CPU: %s%s\n", colors[PURPLE], colors[RESET], print_cpu())
+    fmt.Printf("%s(_/ |       | \\_)      GPU: %s%s\n", colors[BLUE], colors[RESET], print_gpu())
+    fmt.Printf("%s    \\       /          MEMORY: %s%d gb\n", colors[CYAN], colors[RESET], print_memory())
+    fmt.Printf("%s   __\\_>-<_/__         DISK: %s%d gb\n", colors[WHITE], colors[RESET], uint64(disk.All)/uint64(GB))
+    fmt.Printf("%s%s%s%s\n\n", colors[WHITE], "   ~;/     \\;~   ", "└───────────────────────────────────┘", colors[RESET]);
 }
