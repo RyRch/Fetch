@@ -24,18 +24,31 @@ is currently in its early development stage, and user feedback and contributions
 # Setup
 > [Install](https://go.dev/doc/install) Go if you don't have it.
 
+0. Install dependencies (default: Arch Linux)
+
+```bash
+sudo pacman -S gccgo golang pciutils xorg-xprop
+```
+
 1. Clone this repo :
 ```bash
 git clone github.com/the01rch/fetch
 ```
+
 2. Go to the directory :
 ```bash
 cd fetch
 ```
+
 3. Build and install it with :
 ```bash
 sudo make install
  ```
+
+4. Uninstall :
+```bash
+sudo make uninstall
+```
 
 # Usage
 
